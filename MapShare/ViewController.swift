@@ -6,6 +6,7 @@
 //  Copyright © 2016年 riku_arakawa. All rights reserved.
 //
 
+//せいやん加入
 
 
 import UIKit
