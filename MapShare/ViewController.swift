@@ -22,18 +22,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var lm: CLLocationManager!
     //Start画面から渡ってくるnameを入れる変数
     var myselfName : String!
-    var user1Name : String!
+    var userNames : [String] = []
     //user
     var myself : User!
     var user1 : User!
+    var users : [User]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //自分
         myself = User(name: myselfName)
-        //相手
-        user1 = User(name: user1Name)
+        setupUsers()
         
         // フィールドの初期化
         lm = CLLocationManager()
@@ -55,16 +55,33 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
     }
     
+    //自分以外のuserを配列で管理
+    func setupUsers(){
+        //配列を初期化
+        users.removeAll()
+        //相手
+        for name in userNames{
+            let user = User(name: name)
+            users.append(user)
+        }
+
+    }
+    
+    //Firebase設定
     func setupFirebase(){
         let ref = Firebase(url:"https://hem-tutorial-0318.firebaseio.com")
         
         ref.queryLimitedToLast(25).observeEventType(FEventType.ChildAdded, withBlock: { (snapshot) in
             print(snapshot.value!)
-            if snapshot.value["name"] as! String == self.user1.name{
-                self.user1.latitude = snapshot.value["latitude"] as! CLLocationDegrees!
-                self.user1.longitude = snapshot.value["longitude"] as! CLLocationDegrees!
-                //相手の位置を更新
-                self.setUserOnMap(self.user1)
+            
+            //配列に入っているuser全員の座標を更新
+            for user in self.users {
+                if snapshot.value["name"] as! String == user.name{
+                    user.latitude = snapshot.value["latitude"] as! CLLocationDegrees!
+                    user.longitude = snapshot.value["longitude"] as! CLLocationDegrees!
+                    //相手の位置を更新
+                    self.setUserOnMap(user)
+                }
             }
         })
 

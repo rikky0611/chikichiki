@@ -26,7 +26,7 @@ class StartViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let nextVC = segue.destinationViewController as! ViewController
         nextVC.myselfName = textField.text
-        nextVC.user1Name = textField2.text
+        nextVC.userNames.append(textField2.text!)
     }
 
     override func didReceiveMemoryWarning() {
