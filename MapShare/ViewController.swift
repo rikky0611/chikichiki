@@ -25,8 +25,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var userNames : [String] = []
     //user
     var myself : User!
-    var user1 : User!
-    var users : [User]!
+    var users : [User]! = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
